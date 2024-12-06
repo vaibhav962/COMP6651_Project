@@ -1,7 +1,21 @@
 import random
 import math
+import os
 
 def generate_sink_source_graph(n, r, upper_cap, upper_cost, file_name):
+    """
+    Generate a random weighted directed Euclidean source-sink graph.
+
+    Parameters:
+        n (int): Number of vertices.
+        r (float): Maximum distance between nodes sharing an edge.
+        upper_cap (int): Maximum capacity value for edges.
+        upper_cost (int): Maximum cost value for edges.
+        file_name (str): File name to save the generated graph in EDGES format.
+
+    Returns:
+        None
+    """
     vertices = [{"id": i, "x": random.uniform(0, 1), "y": random.uniform(0, 1)} for i in range(n)]
     edges = []
 
@@ -22,11 +36,12 @@ def generate_sink_source_graph(n, r, upper_cap, upper_cost, file_name):
                                           "capacity": random.randint(1, upper_cap),
                                           "cost": random.randint(1, upper_cost)})
 
-    with open(file_name, "w") as f:
+    os.makedirs("graphs", exist_ok=True)
+    with open(os.path.join("graphs", file_name), "w") as f:
         for edge in edges:
             f.write(f"{edge['from']} {edge['to']} {edge['capacity']} {edge['cost']}\n")
 
-    print(f"Graph with {n} vertices and {len(edges)} edges saved to {file_name}.")
+    print(f"Graph with {n} vertices and {len(edges)} edges saved to graphs/{file_name}.")
 
 # Generate graphs for the 8 simulations
 simulations = [
